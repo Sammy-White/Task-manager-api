@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-
+    
     age: {
         type: Number,
         default: 0,
@@ -131,3 +131,5 @@ userSchema.pre('remove', async function (next) {
 const User = mongoose.model('User', userSchema )
 
 module.exports = User
+
+

@@ -1,8 +1,22 @@
 const express = require('express')
+const multer = require('multer')
+const sharp = require('sharp')
 const Tasks = require('../models/task')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
+
+const upload = multer({
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please file should be jpg, jpeg, or png format'))
+        }
+        cb(undefined, true)
+    }
+})
 
 router.post('/tasks',auth, async (req, res) => {
 
@@ -19,9 +33,23 @@ router.post('/tasks',auth, async (req, res) => {
     }
 })
 
+router.post('/tasks/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+    let task = await Tasks.findOne({avatar})
+    task = req.file.buffer
+    await task.save()
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+   
+})
+
+
+
+
 // GET /tasks?completed=true 
 // GET /tasks?limit=10&skip=20
 // GET /tasks?sortBy=createdAt:desc
+
 router.get('/tasks', auth, async (req, res) => {
     const match = {}
     const sort = {}
@@ -107,3 +135,4 @@ router.delete('/tasks/:id', auth, async (req, res) => {
 
 
 module.exports = router
+

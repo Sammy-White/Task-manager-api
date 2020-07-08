@@ -63,7 +63,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         await req.user.save()
 
         res.send()
-    } catch (e) {
+    } catch (e) { 
         res.status(500).send()
     }
 })
@@ -81,7 +81,7 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
-router.get('/users/:id/avatar', async (req, res) => {
+router.get('/users/avatar/:id', async (req, res) => {
     try {
        const user = await User.findById(req.params.id)
        
@@ -137,3 +137,7 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
 
 
 module.exports = router
+
+
+
+

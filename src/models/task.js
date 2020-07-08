@@ -11,16 +11,30 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    avatar: {
+        type: Buffer
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    }
-},{
+    }, 
+},
+    {
     timestamps: true
 })
+
+
+
+
+
+
 
 const Tasks = mongoose.model('Tasks', taskSchema )
 
 
 module.exports = Tasks
+
+
+
+
